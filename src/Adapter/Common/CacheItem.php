@@ -79,7 +79,7 @@ class CacheItem implements PhpCacheItem
     /**
      * {@inheritdoc}
      */
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }
@@ -87,7 +87,7 @@ class CacheItem implements PhpCacheItem
     /**
      * {@inheritdoc}
      */
-    public function set($value)
+    public function set(mixed $value): static
     {
         $this->value    = $value;
         $this->hasValue = true;
@@ -99,10 +99,10 @@ class CacheItem implements PhpCacheItem
     /**
      * {@inheritdoc}
      */
-    public function get()
+    public function get(): mixed
     {
         if (!$this->isHit()) {
-            return;
+            return NULL;
         }
 
         return $this->value;
@@ -111,7 +111,7 @@ class CacheItem implements PhpCacheItem
     /**
      * {@inheritdoc}
      */
-    public function isHit()
+    public function isHit(): bool
     {
         $this->initialize();
 
@@ -137,7 +137,7 @@ class CacheItem implements PhpCacheItem
     /**
      * {@inheritdoc}
      */
-    public function expiresAt($expiration)
+    public function expiresAt(?\DateTimeInterface $expiration): static
     {
         if ($expiration instanceof \DateTimeInterface) {
             $this->expirationTimestamp = $expiration->getTimestamp();
@@ -153,7 +153,7 @@ class CacheItem implements PhpCacheItem
     /**
      * {@inheritdoc}
      */
-    public function expiresAfter($time)
+    public function expiresAfter(int|\DateInterval|null $time): static
     {
         if ($time === null) {
             $this->expirationTimestamp = null;
